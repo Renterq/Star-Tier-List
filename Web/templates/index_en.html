@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Tier List | Minecraft PvP Rankings</title>
+    <meta name="description" content="Star Tier List - The best and most updated Minecraft PvP player and clan rankings. Check your tier and climb to the top!">
+    <meta name="keywords" content="Star Tier List, Minecraft, Tier List, PvP, Minecraft PvP Rankings, MC Tiers, Crystal Tier, Nethpot, Sword, Axe, Minecraft Clans">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" href="/static/logo.png?v=2" type="image/png">
+    <link rel="shortcut icon" href="/static/logo.png?v=2" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #0a0a0c; color: white; font-family: 'Inter', sans-serif; background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/static/web.jpg'); background-size: cover; background-position: center; background-attachment: fixed; }
+        .glass-panel { background: rgba(15, 15, 20, 0.90); border: 1px solid rgba(255,255,255,0.05); }
+        .neon-text { text-shadow: 0 0 10px rgba(255, 165, 0, 0.8), 0 0 20px rgba(255, 69, 0, 0.6); }
+        
+        /* EXPANDED FILTER BUTTONS */
+        .kit-filter-btn { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1rem 1.5rem; border-radius: 1.25rem; background-color: rgba(30, 30, 40, 0.7); border: 2px solid transparent; transition: all 0.3s ease; cursor: pointer; min-width: 110px; flex-shrink: 0; }
+        .kit-filter-btn:hover { background-color: rgba(50, 50, 70, 0.9); transform: translateY(-2px); }
+        .kit-filter-btn.active { background-color: rgba(255, 69, 0, 0.2); border-color: #ff4500; box-shadow: 0 0 15px rgba(255, 69, 0, 0.4) inset; opacity: 1 !important; }
+        .kit-filter-icon { width: 40px; height: 40px; object-fit: contain; margin-bottom: 0.5rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+        .kit-filter-name { font-size: 0.85rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: #e0e0e0; }
+        
+        /* OVERLAY REMOVED - CLEAN TIER VIEW */
+        .tier-badge-container { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; margin: 0 4px; }
+        .tier-icon-circle { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.4); box-shadow: 0 4px 6px rgba(0,0,0,0.3); transition: transform 0.2s ease; }
+        .tier-icon-circle:hover { transform: scale(1.1); }
+        .tier-badge-icon { width: 24px; height: 24px; object-fit: contain; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.8)); }
+        .tier-name-text { font-size: 0.75rem; font-weight: 900; letter-spacing: 0.5px; line-height: 1; text-transform: uppercase; padding: 4px 10px; border-radius: 12px; }
+
+        /* TIER COLORS */
+        .HT1 .tier-icon-circle { border-color: #facc15; box-shadow: 0 0 10px rgba(250, 204, 21, 0.4); } .HT1 .tier-name-text { color: #facc15; background: rgba(250, 204, 21, 0.1); border: 1px solid rgba(250, 204, 21, 0.3); }
+        .LT1 .tier-icon-circle { border-color: #facc15; box-shadow: 0 0 10px rgba(250, 204, 21, 0.4); } .LT1 .tier-name-text { color: #facc15; background: rgba(250, 204, 21, 0.1); border: 1px solid rgba(250, 204, 21, 0.3); }
+        
+        .HT2 .tier-icon-circle { border-color: #9ca3af; box-shadow: 0 0 10px rgba(156, 163, 175, 0.4); } .HT2 .tier-name-text { color: #9ca3af; background: rgba(156, 163, 175, 0.1); border: 1px solid rgba(156, 163, 175, 0.3); }
+        .LT2 .tier-icon-circle { border-color: #9ca3af; box-shadow: 0 0 10px rgba(156, 163, 175, 0.4); } .LT2 .tier-name-text { color: #9ca3af; background: rgba(156, 163, 175, 0.1); border: 1px solid rgba(156, 163, 175, 0.3); }
+        
+        .HT3 .tier-icon-circle { border-color: #f97316; box-shadow: 0 0 10px rgba(249, 115, 22, 0.4); } .HT3 .tier-name-text { color: #f97316; background: rgba(249, 115, 22, 0.1); border: 1px solid rgba(249, 115, 22, 0.3); }
+        .LT3 .tier-icon-circle { border-color: #f97316; box-shadow: 0 0 10px rgba(249, 115, 22, 0.4); } .LT3 .tier-name-text { color: #f97316; background: rgba(249, 115, 22, 0.1); border: 1px solid rgba(249, 115, 22, 0.3); }
+        
+        .HT4 .tier-icon-circle { border-color: #a855f7; box-shadow: 0 0 10px rgba(168, 85, 247, 0.4); } .HT4 .tier-name-text { color: #a855f7; background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); }
+        .LT4 .tier-icon-circle { border-color: #a855f7; box-shadow: 0 0 10px rgba(168, 85, 247, 0.4); } .LT4 .tier-name-text { color: #a855f7; background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); }
+        
+        .HT5 .tier-icon-circle { border-color: #22c55e; box-shadow: 0 0 10px rgba(34, 197, 94, 0.4); } .HT5 .tier-name-text { color: #22c55e; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); }
+        .LT5 .tier-icon-circle { border-color: #22c55e; box-shadow: 0 0 10px rgba(34, 197, 94, 0.4); } .LT5 .tier-name-text { color: #22c55e; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); }
+        
+        .banned-glow { box-shadow: 0 0 50px rgba(255, 0, 0, 0.5) !important; border-color: #ff0000 !important; }
+        .banned-text { color: #ff3333; text-shadow: 0 0 10px rgba(255,0,0,0.8); }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .tab-active { background-color: rgba(255, 69, 0, 0.2); color: white; border: 1px solid #ff4500; }
+        .tab-inactive { background-color: transparent; color: #9ca3af; border: 1px solid transparent; }
+        .tab-inactive:hover { color: white; background-color: rgba(255,255,255,0.05); }
+        .klan-logo { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; border-width: 2px; border-style: solid; background-color: #0b0c10; flex-shrink: 0; }
+        .discord-card { background: rgba(20, 20, 25, 0.8); border: 1px solid rgba(88, 101, 242, 0.3); transition: all 0.3s ease; }
+        .discord-card:hover { transform: translateY(-5px); border-color: #5865F2; box-shadow: 0 10px 25px rgba(88, 101, 242, 0.2); }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <nav class="glass-panel p-4 flex flex-wrap gap-4 justify-between items-center mb-6 border-b border-gray-800/50 backdrop-blur-md sticky top-0 z-40">
+        <div class="flex items-center gap-2">
+            <a href="/en" class="text-2xl md:text-3xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-red-500 to-purple-600 neon-text">
+                STAR TIER LIST
+            </a>
+        </div>
+        <div class="flex flex-wrap gap-2 md:gap-4 items-center">
+            <div class="relative w-full md:w-auto">
+                <input type="text" id="searchInput" placeholder="Search Player..." autocomplete="off" class="w-full md:w-64 bg-[#15151a]/80 text-white rounded-xl px-5 py-2.5 border border-gray-700/50 focus:outline-none focus:border-orange-500 transition shadow-sm relative z-50">
+                <div id="searchResults" class="absolute left-0 right-0 top-[110%] bg-[#121216]/95 border border-gray-700/50 rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.8)] backdrop-blur-md overflow-hidden hidden z-50 max-h-60 overflow-y-auto hide-scrollbar"></div>
+            </div>
+            <a href="https://discord.gg/startier" target="_blank" class="w-full md:w-auto text-center bg-[#5865F2] hover:bg-[#4752C4] px-6 py-2.5 rounded-xl font-bold shadow-lg transition transform hover:scale-105 flex items-center justify-center gap-2">
+                Discord
+            </a>
+            <a href="/" class="bg-[#1a1a20] hover:bg-[#2a2a30] border border-gray-700 px-4 py-2.5 rounded-xl font-black shadow-lg transition flex items-center justify-center text-white w-14 text-center tracking-widest" title="Turkish">
+                TR
+            </a>
+        </div>
+    </nav>
+
+    <div class="flex justify-center mb-6 px-4">
+        <div class="bg-[#15151a]/80 p-1 rounded-2xl flex border border-gray-700/50 backdrop-blur-sm w-full md:w-auto overflow-x-auto hide-scrollbar">
+            <button id="btnOyuncular" onclick="switchTab('oyuncular')" class="focus:outline-none flex-1 md:flex-none px-6 py-2.5 rounded-xl font-bold transition tab-active whitespace-nowrap">Players</button>
+            <button id="btnKlanlar" onclick="switchTab('klanlar')" class="focus:outline-none flex-1 md:flex-none px-6 py-2.5 rounded-xl font-bold transition tab-inactive whitespace-nowrap">Clans</button>
+            <button id="btnDiscordlar" onclick="switchTab('discordlar')" class="focus:outline-none flex-1 md:flex-none px-6 py-2.5 rounded-xl font-bold transition tab-inactive whitespace-nowrap">Partners</button>
+        </div>
+    </div>
+
+    <div id="oyuncularSection">
+        <div class="container mx-auto px-4 mb-8">
+            <div class="flex overflow-x-auto hide-scrollbar gap-4 p-4 glass-panel rounded-2xl shadow-xl backdrop-blur-sm md:justify-center" id="filterBar">
+                <div class="kit-filter-btn active" onclick="setFilter('Overall', this)"><img src="/static/kits/overall.png" class="kit-filter-icon" onerror="this.src='https://cdn-icons-png.flaticon.com/512/10692/10692858.png'"> <span class="kit-filter-name">Overall</span></div>
+                {% set kitler = ["Nethpot", "Sword", "Axe", "SMP", "DiaSMP", "Mace", "Pot", "UHC", "Crystal"] %}
+                {% for kit in kitler %}
+                <div class="kit-filter-btn opacity-60 hover:opacity-100" onclick="setFilter('{{ kit }}', this)">
+                    <img src="/static/kits/{{ 'vanilla' if kit == 'Crystal' else kit | lower }}.png" class="kit-filter-icon" onerror="this.src='https://cdn-icons-png.flaticon.com/512/15052/15052596.png'">
+                    <span class="kit-filter-name">{{ kit }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="container mx-auto px-4 pb-12">
+            <h2 id="tableTitle" class="text-2xl md:text-4xl font-black text-white mb-6 uppercase tracking-widest border-l-8 border-orange-500 pl-4 flex items-center gap-3 neon-text">
+                <img src="/static/kits/overall.png" class="w-8 h-8 md:w-10 md:h-10 drop-shadow-lg" id="tableTitleIcon" onerror="this.src='https://cdn-icons-png.flaticon.com/512/10692/10692858.png'">
+                <span>Overall Rankings</span>
+            </h2>
+            <div class="glass-panel rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] backdrop-blur-md overflow-hidden">
+                <div class="overflow-x-auto hide-scrollbar">
+                    <table class="w-full text-left min-w-[600px]">
+                        <thead class="bg-[#121216]/90 border-b border-gray-800/50 text-sm uppercase tracking-wider">
+                            <tr><th class="p-4 md:p-5 text-gray-400 font-bold w-16 text-center">#</th><th class="p-4 md:p-5 text-gray-400 font-bold">PLAYER</th><th class="p-4 md:p-5 text-gray-400 font-bold text-right">TIER ACHIEVEMENTS</th></tr>
+                        </thead>
+                        <tbody id="rankingTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="klanlarSection" class="hidden container mx-auto px-4 pb-12">
+        <h2 class="text-2xl md:text-4xl font-black text-white mb-6 uppercase tracking-widest border-l-8 border-purple-500 pl-4 flex items-center gap-3 neon-text" style="text-shadow: 0 0 10px rgba(168,85,247,0.8);">👑 Clan Rankings</h2>
+        <div class="glass-panel rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] backdrop-blur-md overflow-hidden">
+            <div class="overflow-x-auto hide-scrollbar">
+                <table class="w-full text-left min-w-[750px]">
+                    <thead class="bg-[#121216]/90 border-b border-gray-800/50 text-sm uppercase tracking-wider">
+                        <tr><th class="p-4 text-gray-400 font-bold w-16 text-center">#</th><th class="p-4 text-gray-400 font-bold w-[300px]">CLAN NAME</th><th class="p-4 text-center text-gray-400 font-bold">BEST TIER</th><th class="p-4 text-center text-gray-400 font-bold">BEST KIT</th><th class="p-4 text-center text-gray-400 font-bold">AVERAGE</th><th class="p-4 text-right text-gray-400 font-bold">TOTAL POINTS</th></tr>
+                    </thead>
+                    <tbody>
+                        {% if not klanlar %}<tr><td colspan="6" class="p-10 text-center text-gray-500 font-bold uppercase">There are no clans registered in the system yet.</td></tr>
+                        {% else %}
+                            {% for klan in klanlar %}
+                            <tr class="border-b border-gray-800/30 transition duration-300 group cursor-pointer hover:bg-[#1a1a24]/50" onclick="klanProfilAc('{{ klan.isim }}')">
+                                <td class="p-4 font-black text-center text-gray-400 group-hover:text-white transition">{{ loop.index }}</td>
+                                <td class="p-4 relative" style="background: linear-gradient(90deg, rgba(18,18,22,1) 0%, rgba(18,18,22,0.4) 50%, rgba(18,18,22,1) 100%), url('/static/klanlar/{{ klan.isim }}_bg.png') center/cover no-repeat;">
+                                    <div class="flex items-center gap-4 relative z-10">
+                                        <img src="/static/klanlar/{{ klan.isim }}_logo.png" class="klan-logo" style="border-color: {{ klan.renk }}; box-shadow: 0 0 15px {{ klan.renk }}80;" onerror="this.src='https://via.placeholder.com/50/1f2129/FFFFFF?text=?';">
+                                        <div>
+                                            <div class="font-black text-xl uppercase tracking-widest drop-shadow-md transition group-hover:brightness-125" style="color: {{ klan.renk }};">{{ klan.isim }}</div>
+                                            <span class="text-xs text-gray-400 block font-bold">({{ klan.oyuncu_sayisi }} Members)</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="p-4 text-center"><span class="tier-name-text {{ klan.en_iyi_tier }}">{{ klan.en_iyi_tier }}</span></td>
+                                <td class="p-4 text-center">
+                                    {% if klan.en_iyi_kit != '-' %}
+                                    <div class="flex items-center justify-center gap-1.5" title="{{ klan.en_iyi_kit }} Average">
+                                        <img src="/static/kits/{{ 'vanilla' if klan.en_iyi_kit == 'Crystal' else klan.en_iyi_kit | lower }}.png" class="w-6 h-6 object-contain filter drop-shadow-md">
+                                        <span class="tier-name-text {{ klan.en_iyi_kit_tier }}">{{ klan.en_iyi_kit_tier }}</span>
+                                    </div>
+                                    {% else %}-{% endif %}
+                                </td>
+                                <td class="p-4 text-center"><span class="tier-name-text {{ klan.ortalama_tier }} text-lg px-4 py-1">{{ klan.ortalama_tier }}</span></td>
+                                <td class="p-4 text-right font-black text-2xl text-orange-500 drop-shadow-lg">{{ klan.total_points }}</td>
+                            </tr>
+                            {% endfor %}
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="discordlarSection" class="hidden container mx-auto px-4 pb-12">
+        <h2 class="text-2xl md:text-4xl font-black text-white mb-6 uppercase tracking-widest border-l-8 border-[#5865F2] pl-4 flex items-center gap-3 neon-text" style="text-shadow: 0 0 10px rgba(88,101,242,0.8);">📢 Sponsors & Partners</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% if not reklamlar %}
+                <div class="col-span-full text-center text-gray-500 font-bold uppercase p-10 bg-[#121216]/80 rounded-2xl border border-gray-800">There are no servers to display right now.</div>
+            {% else %}
+                {% for r in reklamlar %}
+                <a href="{{ r.url }}" target="_blank" class="discord-card rounded-2xl p-6 flex items-center gap-5 relative overflow-hidden group">
+                    <div class="absolute -right-10 -top-10 w-32 h-32 bg-[#5865F2]/20 rounded-full blur-3xl group-hover:bg-[#5865F2]/40 transition duration-500"></div>
+                    <img src="{{ r.gorsel_url }}" class="w-20 h-20 rounded-xl shadow-lg border-2 border-gray-700 group-hover:border-[#5865F2] transition duration-300 object-cover relative z-10" onerror="this.src='https://cdn-icons-png.flaticon.com/512/5968/5968756.png'">
+                    <div class="relative z-10">
+                        <h3 class="text-xl font-black text-white group-hover:text-[#5865F2] transition">{{ r.isim }}</h3>
+                        <p class="text-sm text-gray-400 mt-1 line-clamp-2">{{ r.aciklama }}</p>
+                        <div class="mt-3 inline-flex items-center gap-1.5 text-xs font-bold bg-[#5865F2]/20 text-[#5865F2] px-3 py-1 rounded-full border border-[#5865F2]/30 group-hover:bg-[#5865F2] group-hover:text-white transition">Click to Join ➔</div>
+                    </div>
+                </a>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+
+    <div id="profilModal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-50 backdrop-blur-md p-4">
+        <div id="modalBox" class="bg-[#121216] border border-gray-800/80 w-full max-w-[450px] rounded-3xl p-6 md:p-8 relative shadow-[0_0_60px_rgba(255,69,0,0.2)] transform transition-all scale-95 overflow-y-auto max-h-[90vh] hide-scrollbar">
+            <button onclick="profilKapat()" class="absolute top-4 right-4 text-gray-400 hover:text-white bg-gray-900/80 rounded-full w-10 h-10 flex items-center justify-center transition hover:bg-red-500/80 z-20">✕</button>
+            <div class="flex flex-col items-center mt-4 relative z-10">
+                <div class="relative mb-4 md:mb-6 group"><img id="modalAvatar" src="" class="w-24 h-24 md:w-32 md:h-32 rounded-2xl border-4 border-[#1a1a20] shadow-2xl relative z-10"></div>
+                <h3 id="modalNick" class="text-2xl md:text-3xl font-black mb-2 text-white uppercase tracking-wider neon-text drop-shadow-lg text-center break-all">LOADING...</h3>
+                <a id="nameMcBtn" href="#" target="_blank" class="mb-4 bg-gradient-to-r from-gray-800 to-gray-700 hover:from-gray-700 hover:to-gray-600 border border-gray-600 px-6 py-2 rounded-xl text-sm font-bold shadow-lg flex items-center gap-2 transition transform hover:scale-105"><img src="https://namemc.com/favicon.ico" class="w-4 h-4 rounded-sm"> View on NameMC</a>
+                <div id="normalInfo" class="flex flex-wrap justify-center gap-2 md:gap-3 mb-4 w-full"></div>
+                <div id="kitBox" class="w-full bg-[#15151a]/80 p-4 md:p-6 rounded-2xl border border-gray-800/80 shadow-inner"><h4 id="kitBoxTitle" class="text-xs text-gray-500 font-black tracking-[0.2em] mb-4 md:mb-6 text-center uppercase border-b border-gray-800 pb-3">ACHIEVED TIERS</h4><div id="modalKits" class="flex flex-wrap gap-3 md:gap-4 justify-center"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="klanModal" class="fixed inset-0 bg-black/90 hidden items-center justify-center z-50 backdrop-blur-md p-4">
+        <div id="klanModalBox" class="bg-[#121216] border w-full max-w-[600px] rounded-3xl p-6 md:p-8 relative transform transition-all scale-95 overflow-y-auto max-h-[90vh] hide-scrollbar" style="background-image: linear-gradient(rgba(18, 18, 22, 0.95), rgba(18, 18, 22, 0.95)), var(--klan-bg); background-size: cover; background-position: center;">
+            <button onclick="klanProfilKapat()" class="absolute top-4 right-4 text-gray-400 hover:text-white bg-gray-900/80 rounded-full w-10 h-10 flex items-center justify-center transition hover:bg-red-500/80 z-20">✕</button>
+            <div class="flex flex-col items-center mt-2 relative z-10">
+                <div class="w-full flex justify-between items-start mb-6 mt-0 relative">
+                    <div class="flex flex-col items-start flex-1 gap-2">
+                        <div class="flex items-center gap-4">
+                            <img id="klanModalLogo" src="" class="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 object-cover">
+                            <h3 id="klanModalIsim" class="text-3xl md:text-4xl font-black text-white uppercase tracking-widest drop-shadow-lg">CLAN</h3>
+                        </div>
+                        <a id="klanModalDiscord" href="#" target="_blank" class="ml-2 bg-[#5865F2]/20 hover:bg-[#5865F2] text-[#5865F2] hover:text-white border border-[#5865F2]/50 px-4 py-1.5 rounded-full flex items-center gap-2 transition duration-300 font-bold text-xs shadow-lg hidden">Join Discord</a>
+                    </div>
+                    <div class="flex flex-col items-center cursor-pointer group mr-6 md:mr-10" onclick="kurucuProfileGit(document.getElementById('klanModalKurucuText').innerText)" title="Go to Founder's Profile">
+                        <span class="text-[0.6rem] md:text-xs text-orange-400 font-black tracking-widest mb-1.5 uppercase">👑 FOUNDER</span>
+                        <img id="klanModalKurucuAvatar" src="" class="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-gray-600 group-hover:border-orange-500 shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-all duration-300 group-hover:scale-110 object-cover">
+                        <span id="klanModalKurucuText" class="text-xs font-bold text-gray-300 group-hover:text-white mt-1.5 truncate max-w-[80px]">...</span>
+                    </div>
+                </div>
+                <div class="flex flex-wrap justify-center gap-3 mb-6 w-full">
+                    <div class="bg-[#1a1a20]/80 border border-gray-700/50 px-6 py-3 rounded-xl flex flex-col items-center flex-1 min-w-[100px]"><span class="text-xs text-gray-500 font-bold mb-1">MEMBERS</span><span id="klanModalUyeSayisi" class="text-xl font-black text-white">0</span></div>
+                    <div class="bg-[#1a1a20]/80 border border-gray-700/50 px-6 py-3 rounded-xl flex flex-col items-center flex-1 min-w-[100px]"><span class="text-xs text-gray-500 font-bold mb-1">TOTAL POINTS</span><span id="klanModalPuan" class="text-xl font-black text-orange-500">0</span></div>
+                    <div class="bg-[#1a1a20]/80 border border-gray-700/50 px-6 py-3 rounded-xl flex flex-col items-center flex-1 min-w-[100px]">
+                        <span class="text-xs text-gray-500 font-bold mb-1">BEST KIT</span>
+                        <div id="klanModalEnIyiKitContainer" class="flex items-center gap-1.5 mt-0.5">
+                            <img id="klanModalEnIyiKitIcon" src="" class="w-5 h-5 object-contain hidden">
+                            <span id="klanModalEnIyiKitText" class="text-lg font-black text-white px-2 py-0.5 rounded bg-gray-800">...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full bg-[#15151a]/90 p-4 md:p-6 rounded-2xl border border-gray-800/80 shadow-inner">
+                    <h4 class="text-xs text-gray-500 font-black tracking-[0.2em] mb-4 text-center uppercase border-b border-gray-800 pb-3">⚔️ CLAN MEMBERS</h4>
+                    <div id="klanModalUyeler" class="flex flex-col gap-2 max-h-[300px] overflow-y-auto hide-scrollbar pr-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const allPlayers = {{ oyuncular | tojson | safe }};
+        const tierPoints = { "HT1": 60, "LT1": 45, "HT2": 30, "LT2": 20, "HT3": 10, "LT3": 6, "HT4": 4, "LT4": 3, "HT5": 2, "LT5": 1 };
+        document.addEventListener("DOMContentLoaded", () => { renderTable('Overall'); });
+        
+        // HORIZONTAL SCROLL FUNCTION (FOR MOUSE WHEEL) - MAIN TABLE ONLY
+        function enableHorizontalScroll() {
+            document.querySelectorAll('.scroll-h').forEach(el => {
+                el.onwheel = function(e) {
+                    if (e.deltaY !== 0) {
+                        e.preventDefault();
+                        this.scrollLeft += e.deltaY;
+                    }
+                };
+            });
+        }
+
+        // RANK CALCULATION IN KIT
+        function getPlayerRankInKit(nick, kitName) {
+            let filtered = allPlayers.filter(p => p.kits[kitName] !== undefined).sort((a, b) => {
+                let scoreA = tierPoints[a.kits[kitName]] || 0;
+                let scoreB = tierPoints[b.kits[kitName]] || 0;
+                return scoreA === scoreB ? b.total_points - a.total_points : scoreB - scoreA;
+            });
+            return filtered.findIndex(p => p.nick === nick) + 1;
+        }
+
+        // TRIGGER KIT FILTER ON CLICK
+        function triggerKitFilter(kitName) {
+            let btns = document.querySelectorAll('.kit-filter-btn');
+            for(let b of btns) {
+                if(b.querySelector('span').innerText.trim().toLowerCase() === kitName.toLowerCase()) {
+                    b.click();
+                    break;
+                }
+            }
+        }
+
+        function switchTab(tab) {
+            const btnO = document.getElementById('btnOyuncular'); const btnK = document.getElementById('btnKlanlar'); const btnD = document.getElementById('btnDiscordlar');
+            const secO = document.getElementById('oyuncularSection'); const secK = document.getElementById('klanlarSection'); const secD = document.getElementById('discordlarSection');
+            [btnO, btnK, btnD].forEach(btn => { btn.classList.remove('tab-active'); btn.classList.add('tab-inactive'); });
+            [secO, secK, secD].forEach(sec => { sec.classList.add('hidden'); });
+            if(tab === 'oyuncular') { btnO.classList.add('tab-active'); btnO.classList.remove('tab-inactive'); secO.classList.remove('hidden'); }
+            else if(tab === 'klanlar') { btnK.classList.add('tab-active'); btnK.classList.remove('tab-inactive'); secK.classList.remove('hidden'); }
+            else if(tab === 'discordlar') { btnD.classList.add('tab-active'); btnD.classList.remove('tab-inactive'); secD.classList.remove('hidden'); }
+        }
+        
+        function setFilter(kitName, btnElement) {
+            document.querySelectorAll('.kit-filter-btn').forEach(btn => { btn.classList.remove('active'); btn.classList.add('opacity-60'); });
+            btnElement.classList.add('active'); btnElement.classList.remove('opacity-60');
+            document.getElementById('tableTitleIcon').src = btnElement.querySelector('img').src; document.querySelector('#tableTitle span').innerText = kitName + " Rankings";
+            renderTable(kitName);
+        }
+        
+        function renderTable(filterKit) {
+            let filtered = filterKit === 'Overall' ? [...allPlayers].sort((a, b) => b.total_points - a.total_points) : allPlayers.filter(p => p.kits[filterKit] !== undefined).sort((a, b) => { let scoreA = tierPoints[a.kits[filterKit]] || 0; let scoreB = tierPoints[b.kits[filterKit]] || 0; return scoreA === scoreB ? b.total_points - a.total_points : scoreB - scoreA; });
+            const tbody = document.getElementById('rankingTableBody'); tbody.innerHTML = '';
+            if(filtered.length === 0) { tbody.innerHTML = `<tr><td colspan="3" class="p-10 text-center text-gray-500 font-bold tracking-widest uppercase text-lg">No players ranked in this kit yet.</td></tr>`; return; }
+            filtered.forEach((oyuncu, index) => {
+                let realIndex = index + 1; let rankStr = realIndex === 1 ? `<span class="absolute inset-0 flex items-center justify-center text-5xl text-yellow-500/10 font-extrabold z-0 select-none">1</span><span class="relative z-10 text-3xl text-yellow-400 drop-shadow-[0_0_10px_rgba(255,215,0,0.8)]">1</span>` : (realIndex === 2 ? `<span class="absolute inset-0 flex items-center justify-center text-5xl text-gray-400/10 font-extrabold z-0 select-none">2</span><span class="relative z-10 text-3xl text-gray-300 drop-shadow-[0_0_10px_rgba(192,192,192,0.8)]">2</span>` : (realIndex === 3 ? `<span class="absolute inset-0 flex items-center justify-center text-5xl text-orange-500/10 font-extrabold z-0 select-none">3</span><span class="relative z-10 text-3xl text-orange-400 drop-shadow-[0_0_10px_rgba(205,127,50,0.8)]">3</span>` : `<span class="text-2xl text-gray-500 group-hover:text-gray-300 transition">${realIndex}</span>`));
+                
+                let kitsHtml = ''; 
+                for (const [kitName, tier] of Object.entries(oyuncu.kits)) { 
+                    let opacityClass = (filterKit !== 'Overall' && filterKit !== kitName) ? 'opacity-40 grayscale-[50%]' : 'opacity-100'; 
+                    let iconName = kitName === 'Crystal' ? 'vanilla' : kitName.toLowerCase();
+                    kitsHtml += `<div class="tier-badge-container ${tier} ${opacityClass} transition-all" title="${kitName}: ${tier}"><div class="tier-icon-circle"><img src="/static/kits/${iconName}.png" class="tier-badge-icon" onerror="this.style.opacity='0.3'"></div><span class="tier-name-text">${tier}</span></div>`; 
+                }
+                
+                const tr = document.createElement('tr'); tr.className = "border-b border-gray-800/30 hover:bg-[#1a1a24]/80 transition duration-300 cursor-pointer group"; tr.onclick = () => profilAc(oyuncu.nick);
+                
+                let klanBadgesi = '';
+                if (oyuncu.klan) {
+                    let klanRenk = oyuncu.klan_renk || '#a855f7';
+                    let crown = oyuncu.is_founder ? `<span class="mr-1 text-yellow-400 drop-shadow-md text-[0.7rem] md:text-sm leading-none">👑</span>` : '';
+                    klanBadgesi = `<span class="text-[0.60rem] md:text-[0.65rem] px-2.5 py-1 rounded-full border ml-2 uppercase font-black tracking-wider flex items-center shadow-sm transition-all group-hover:brightness-125" style="color: ${klanRenk}; border-color: ${klanRenk}60; background-color: ${klanRenk}15; box-shadow: 0 0 10px ${klanRenk}20;">${crown}${oyuncu.klan}</span>`;
+                }
+                
+                tr.innerHTML = `
+                    <td class="p-4 md:p-5 font-black text-center relative w-16 md:w-20">${rankStr}</td>
+                    <td class="p-4 md:p-5 flex items-center gap-3 md:gap-5">
+                        <div class="relative shrink-0"><img src="https://visage.surgeplay.com/face/64/${oyuncu.uuid}" class="w-10 h-10 md:w-14 md:h-14 rounded-xl border-2 border-gray-700/50 shadow-lg group-hover:border-orange-500/50 transition-all duration-300 transform group-hover:scale-105"></div>
+                        <div class="min-w-0">
+                            <div class="font-black text-lg md:text-xl text-gray-100 group-hover:text-orange-400 transition tracking-wide truncate flex items-center">${oyuncu.nick} ${klanBadgesi}</div>
+                            <div class="text-xs md:text-sm text-gray-400 font-bold tracking-wider flex items-center gap-1">${oyuncu.total_points} PTS</div>
+                        </div>
+                    </td>
+                    <td class="p-4 md:p-5 text-right">
+                        <div class="flex flex-nowrap md:flex-wrap justify-end gap-2 overflow-x-auto hide-scrollbar py-2 scroll-h">
+                            ${kitsHtml}
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            enableHorizontalScroll();
+        }
+
+        const searchInput = document.getElementById('searchInput'), searchResults = document.getElementById('searchResults');
+        searchInput.addEventListener('input', (e) => {
+            const val = e.target.value.toLowerCase().trim(); searchResults.innerHTML = '';
+            if (!val) { searchResults.classList.add('hidden'); return; }
+            const filtered = allPlayers.filter(p => p.nick.toLowerCase().includes(val)).slice(0, 5); 
+            if (filtered.length === 0) { searchResults.innerHTML = '<div class="p-4 text-gray-500 text-sm font-bold text-center">Player not found</div>'; } 
+            else { filtered.forEach(p => { const div = document.createElement('div'); div.className = "flex items-center gap-3 p-3 hover:bg-orange-500/20 cursor-pointer border-b border-gray-700/50 last:border-0 transition"; div.innerHTML = `<img src="https://visage.surgeplay.com/face/32/${p.uuid}" class="w-8 h-8 rounded-lg border border-gray-600"><div><span class="text-white font-bold block leading-tight">${p.nick}</span><span class="text-xs text-orange-400 font-bold">${p.total_points} Points</span></div>`; div.onclick = () => { searchInput.value = ''; searchResults.classList.add('hidden'); profilAc(p.nick); }; searchResults.appendChild(div); }); }
+            searchResults.classList.remove('hidden');
+        });
+        searchInput.addEventListener("keypress", function(e) { if (e.key === "Enter") { e.preventDefault(); let nick = this.value.trim(); if(nick) { searchResults.classList.add('hidden'); profilAc(nick); this.value = ''; } } });
+        document.addEventListener('click', (e) => { if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) searchResults.classList.add('hidden'); });
+
+        async function profilAc(nick) {
+            const modal = document.getElementById('profilModal'), modalBox = document.getElementById('modalBox');
+            modal.classList.remove('hidden'); modal.classList.add('flex'); setTimeout(() => { modalBox.classList.remove('scale-95'); modalBox.classList.add('scale-100'); }, 10);
+            try {
+                let response = await fetch('/api/oyuncu/' + nick); let data = await response.json();
+                if(response.ok) {
+                    document.getElementById('modalAvatar').src = "https://visage.surgeplay.com/bust/128/" + data.uuid; document.getElementById('modalNick').innerText = data.nick; const nameMcBtn = document.getElementById('nameMcBtn');
+                    if (data.is_premium) { nameMcBtn.href = "https://namemc.com/profile/" + data.nick; nameMcBtn.innerHTML = '<img src="https://namemc.com/favicon.ico" class="w-4 h-4 rounded-sm"> View on NameMC'; nameMcBtn.className = "mb-4 bg-gradient-to-r from-gray-800 to-gray-700 hover:from-gray-700 hover:to-gray-600 border border-gray-600 px-6 py-2 rounded-xl text-sm font-bold shadow-lg flex items-center gap-2 transition transform hover:scale-105"; nameMcBtn.style.display = 'flex'; } 
+                    else { nameMcBtn.href = "javascript:void(0)"; nameMcBtn.innerHTML = '❌ Non-Premium'; nameMcBtn.className = "mb-4 bg-gradient-to-r from-red-900/50 to-red-800/50 border border-red-700/50 px-6 py-2 rounded-xl text-sm font-bold shadow-lg flex items-center gap-2 text-gray-400 cursor-not-allowed"; nameMcBtn.style.display = 'flex'; }
+                    
+                    if(data.is_banned) {
+                        modalBox.classList.add('banned-glow'); document.getElementById('modalNick').classList.add('banned-text'); document.getElementById('normalInfo').style.display = 'none'; document.getElementById('kitBoxTitle').innerText = "BANNED FOR CHEATING"; document.getElementById('kitBoxTitle').style.color = "#ff3333";
+                        document.getElementById('modalKits').innerHTML = `<div class="text-center w-full"><div class="text-5xl mb-4">🚫</div><div class="text-red-500 font-black text-2xl uppercase tracking-widest mb-2">Blacklisted!</div><div class="text-gray-400 font-bold bg-[#1a1a20] p-4 rounded-xl border border-red-900/50 mt-4 break-words text-sm">${data.ban_reason}</div></div>`;
+                    } else {
+                        modalBox.classList.remove('banned-glow'); document.getElementById('modalNick').classList.remove('banned-text'); document.getElementById('normalInfo').style.display = 'flex'; 
+                        let infoHtml = `<div class="bg-[#1a1a20] border border-gray-700/50 px-4 md:px-8 py-2 rounded-xl text-sm font-bold shadow-sm flex items-center gap-2"><span class="text-orange-500">TOTAL POINTS:</span> <span class="text-white text-lg md:text-xl">${data.total_points}</span></div>`;
+                        if(data.klan && data.klan.trim() !== '') { infoHtml += `<div onclick="profilKapat(); setTimeout(() => klanProfilAc('${data.klan}'), 200)" class="bg-purple-900/30 border border-purple-700/50 hover:bg-purple-800/60 hover:border-purple-500 px-4 md:px-6 py-2 rounded-xl text-sm font-bold shadow-sm flex items-center gap-2 cursor-pointer transition-all duration-300 group"><span class="text-purple-400 text-xs">CLAN:</span> <span class="text-gray-100 group-hover:text-white">${data.klan} <span class="text-purple-500 ml-1">➔</span></span></div>`; }
+                        document.getElementById('normalInfo').innerHTML = infoHtml;
+                        document.getElementById('kitBoxTitle').innerText = "ACHIEVED TIERS"; document.getElementById('kitBoxTitle').style.color = "";
+                        
+                        let kitsHtml = ''; 
+                        for (const [kit, tier] of Object.entries(data.kits)) { 
+                            let iconName = kit === 'Crystal' ? 'vanilla' : kit.toLowerCase();
+                            let pts = tierPoints[tier] || 0;
+                            let rankInKit = getPlayerRankInKit(data.nick, kit);
+                            let hoverText = `Rank: #${rankInKit} | Points: ${pts}`;
+                            
+                            kitsHtml += `<div class="tier-badge-container ${tier} cursor-pointer hover:scale-110 transition-transform" title="${hoverText}" onclick="profilKapat(); setTimeout(() => triggerKitFilter('${kit}'), 200)"><div class="tier-icon-circle"><img src="/static/kits/${iconName}.png" class="tier-badge-icon" onerror="this.style.opacity='0.3'"></div><span class="tier-name-text">${tier}</span></div>`; 
+                        }
+                        document.getElementById('modalKits').innerHTML = kitsHtml ? `<div class="flex flex-wrap justify-center gap-4 py-2">${kitsHtml}</div>` : '<span class="text-gray-600 text-sm font-bold py-4">No ranking data yet.</span>';
+                    }
+                } else { document.getElementById('modalNick').innerText = "NOT FOUND!"; document.getElementById('normalInfo').style.display = 'none'; document.getElementById('nameMcBtn').style.display = 'none'; document.getElementById('kitBoxTitle').innerText = "ERROR"; document.getElementById('modalKits').innerHTML = '<span class="text-red-500 text-sm font-bold py-4">Player is not in database.</span>'; document.getElementById('modalAvatar').src = "https://visage.surgeplay.com/bust/128/8667ba71b85a4004af54457a9734eed7"; }
+            } catch (error) { console.error("Error:", error); }
+        }
+        function profilKapat() { const modalBox = document.getElementById('modalBox'); modalBox.classList.remove('scale-100'); modalBox.classList.add('scale-95'); setTimeout(() => { document.getElementById('profilModal').classList.add('hidden'); document.getElementById('profilModal').classList.remove('flex'); modalBox.classList.remove('banned-glow'); document.getElementById('modalNick').classList.remove('banned-text'); document.getElementById('normalInfo').style.display = 'flex'; document.getElementById('kitBoxTitle').style.color = ""; }, 150); }
+        function kurucuProfileGit(nick) { klanProfilKapat(); setTimeout(() => { profilAc(nick); }, 200); }
+
+        async function klanProfilAc(klanAdi) {
+            const modal = document.getElementById('klanModal'), modalBox = document.getElementById('klanModalBox');
+            modal.classList.remove('hidden'); modal.classList.add('flex'); setTimeout(() => { modalBox.classList.remove('scale-95'); modalBox.classList.add('scale-100'); }, 10);
+            try {
+                let response = await fetch('/api/klan/' + klanAdi); let data = await response.json();
+                if (response.ok) {
+                    let kRenk = data.renk || '#a855f7';
+                    document.getElementById('klanModalIsim').innerText = data.isim; document.getElementById('klanModalIsim').style.color = kRenk; document.getElementById('klanModalIsim').style.textShadow = `0 0 10px ${kRenk}80`;
+                    document.getElementById('klanModalKurucuText').innerText = data.kurucu_nick; document.getElementById('klanModalKurucuAvatar').src = `https://minotar.net/helm/${data.kurucu_nick}/64.png`;
+                    document.getElementById('klanModalUyeSayisi').innerText = data.uye_sayisi; document.getElementById('klanModalPuan').innerText = data.toplam_puan; 
+                    
+                    if(data.en_iyi_kit != '-') {
+                        let bestIcon = data.en_iyi_kit === 'Crystal' ? 'vanilla' : data.en_iyi_kit.toLowerCase();
+                        document.getElementById('klanModalEnIyiKitIcon').src = `/static/kits/${bestIcon}.png`;
+                        document.getElementById('klanModalEnIyiKitIcon').classList.remove('hidden');
+                        document.getElementById('klanModalEnIyiKitText').innerText = data.en_iyi_kit_tier;
+                        document.getElementById('klanModalEnIyiKitText').className = `text-lg font-black px-2 py-0.5 rounded tier-name-text ${data.en_iyi_kit_tier}`;
+                    } else {
+                        document.getElementById('klanModalEnIyiKitIcon').classList.add('hidden');
+                        document.getElementById('klanModalEnIyiKitText').innerText = "-";
+                        document.getElementById('klanModalEnIyiKitText').className = "text-lg font-black text-white px-2 py-0.5 rounded bg-gray-800";
+                    }
+                    
+                    document.getElementById('klanModalLogo').src = `/static/klanlar/${data.isim}_logo.png`; document.getElementById('klanModalLogo').onerror = function() { this.src = 'https://via.placeholder.com/150/1f2129/FFFFFF?text=?'; };
+                    document.getElementById('klanModalLogo').style.borderColor = kRenk; document.getElementById('klanModalLogo').style.boxShadow = `0 0 30px ${kRenk}80`;
+                    modalBox.style.setProperty('--klan-bg', `url('/static/klanlar/${data.isim}_bg.png')`); modalBox.style.borderColor = kRenk; modalBox.style.boxShadow = `0 0 60px ${kRenk}33`;
+                    const btnDiscord = document.getElementById('klanModalDiscord'); if(data.discord_url && data.discord_url.trim() !== "") { btnDiscord.href = data.discord_url; btnDiscord.classList.remove('hidden'); } else { btnDiscord.classList.add('hidden'); }
+                    let uyelerHtml = '';
+                    if (data.uyeler.length === 0) { uyelerHtml = '<div class="text-gray-500 text-center py-4 font-bold">No members in clan yet.</div>'; } 
+                    else { 
+                        data.uyeler.forEach((uye, index) => { 
+                            let rankColor = index === 0 ? 'text-yellow-500' : (index === 1 ? 'text-gray-300' : (index === 2 ? 'text-orange-400' : 'text-gray-500')); 
+                            let kitsHtml = ''; 
+                            for (const [kitName, tier] of Object.entries(uye.kits)) { 
+                                let iconName = kitName === 'Crystal' ? 'vanilla' : kitName.toLowerCase();
+                                // SCALED 35% AND SQUEEZED WITH -MR-4
+                                kitsHtml += `<div class="tier-badge-container ${tier} transform scale-[0.65] origin-left shrink-0 -mr-4" title="${kitName}: ${tier}"><div class="tier-icon-circle"><img src="/static/kits/${iconName}.png" class="tier-badge-icon" onerror="this.style.opacity='0.3'"></div><span class="tier-name-text">${tier}</span></div>`; 
+                            } 
+                            // FLEX-WRAP ADDED AND SCROLL-H REMOVED
+                            uyelerHtml += `<div class="flex items-center justify-between p-3 bg-[#1a1a20]/80 border border-gray-700/30 rounded-xl hover:bg-purple-900/20 transition cursor-pointer" onclick="klanProfilKapat(); setTimeout(() => profilAc('${uye.nick}'), 200)"><div class="flex items-center gap-3 shrink-0"><span class="font-black ${rankColor} w-4 text-center">${index + 1}</span><img src="https://visage.surgeplay.com/face/32/${uye.uuid}" class="w-8 h-8 rounded-lg border border-gray-600"><span class="font-bold text-gray-200 truncate w-20 md:w-28">${uye.nick}</span></div><div class="flex flex-wrap items-center justify-start gap-y-1 flex-1 mx-2 pl-3 border-l border-gray-700/50">${kitsHtml}</div><span class="font-black text-orange-400 shrink-0 w-16 text-right">${uye.toplam_puan} PTS</span></div>`; 
+                        }); 
+                    }
+                    document.getElementById('klanModalUyeler').innerHTML = uyelerHtml;
+                } else { document.getElementById('klanModalIsim').innerText = "ERROR"; document.getElementById('klanModalKurucuText').innerText = "NOT FOUND"; document.getElementById('klanModalKurucuAvatar').src = 'https://minotar.net/helm/Steve/64.png'; document.getElementById('klanModalUyeler').innerHTML = '<div class="text-red-500 text-center py-4 font-bold">Could not load clan data.</div>'; }
+            } catch (error) { console.error("Error:", error); }
+        }
+        function klanProfilKapat() { const modalBox = document.getElementById('klanModalBox'); modalBox.classList.remove('scale-100'); modalBox.classList.add('scale-95'); setTimeout(() => { document.getElementById('klanModal').classList.add('hidden'); document.getElementById('klanModal').classList.remove('flex'); }, 150); }
+    </script>
+</body>
+</html>
