@@ -14,7 +14,6 @@ def klan_kurtar():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
-    # 1. Klanları tabloya geri ekle (Renkleri ve Kurucuları ile)
     klanlar = [
         ('KRYOS', 'BuSonMu', '1254208513333268515', 'https://discord.gg/ekqX7uAWWx', '#ef4444'),
         ('GNG', 'ZeyIsHere', '1104335274865070161', 'https://discord.gg/gngmc', '#a855f7'),
