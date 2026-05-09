@@ -15,7 +15,6 @@ ADMIN_SIFRE = """You Password"""
 DB_PATH = "../tierlist.db" 
 STEVE_UUID = "8667ba71b85a4004af54457a9734eed7"
 
-# Klasörü uygulama başlatılırken güvenli yoldan (absolute path) oluşturuyoruz
 REKLAM_KLASORU = os.path.join(app.root_path, "static", "reklamlar")
 os.makedirs(REKLAM_KLASORU, exist_ok=True)
 
