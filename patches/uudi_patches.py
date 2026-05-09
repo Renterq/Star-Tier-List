@@ -17,7 +17,6 @@ def uuid_kurtar():
         icerik = f.read()
 
     # Nick ve 32 haneli UUID'yi yan yana yakalayan kural
-    # Örnek: 3RENTER__4586269f710049e6b203d4b5f993d61d
     pattern = r'3([a-zA-Z0-9_]{2,16})(non-premium|[a-fA-F0-9]{32})'
     bulunanlar = re.findall(pattern, icerik)
 
