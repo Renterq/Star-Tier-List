@@ -25,6 +25,7 @@ Oyuncuların genel sıralamaları (Leaderboard) görebildiği, SEO optimizasyonl
 2. **Discord Botu:** `bot/` klasörüne girin, bot tokeninizi ekleyip `python3 bot.py` ile başlatın.
 3. **Web Sitesi:** `website/` klasörüne girin, gerekli kütüphaneleri (`pip install flask`) kurun ve `python3 app.py` komutuyla sunucuyu ayağa kaldırın.
 
+
 ---
 ---
 
