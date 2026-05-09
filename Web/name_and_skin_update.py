@@ -3,7 +3,6 @@ import requests
 import time
 import datetime
 
-# Veritabanı yolu app.py ile aynı olmalı
 DB_PATH = "../tierlist.db" 
 
 def mojang_isim_sorgula(uuid):
