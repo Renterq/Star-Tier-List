@@ -24,7 +24,6 @@ def kurtar_ve_yaz():
     for i in range(len(lines)):
         line = lines[i].strip()
         
-        # Oyuncu ismini bul (Örn: 3RENTER__458626... veya 3xNyksnon-premium)
         match_nick = re.search(r'3([a-zA-Z0-9_]{2,16})(non-premium|[a-fA-F0-9]{32})', line)
         if match_nick:
             nick = match_nick.group(1)
