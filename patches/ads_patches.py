@@ -11,7 +11,6 @@ def reklam_kurtar():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
-    # Bozuk dökümandan süzdüğüm o reklam verileri
     reklamlar = [
         (
             'KINGDOM OF VLANDIA', 
