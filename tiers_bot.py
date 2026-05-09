@@ -52,7 +52,6 @@ async def tier_rolu_guncelle(guild, member, kit, yeni_tier, eski_tier=None):
     if not isinstance(member, discord.Member):
         return
 
-    # Eski rolü varsa üzerinden al
     if eski_tier:
         eski_rol_adi = f"{kit} {eski_tier}".lower()
         for role in member.roles:
