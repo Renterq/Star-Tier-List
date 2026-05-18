@@ -581,7 +581,6 @@ def admin_reklam_duzenle():
         eski = conn.execute('SELECT gorsel_url FROM reklam_discordlar WHERE id = ?', (r_id,)).fetchone()
         if eski and eski['gorsel_url']:
             try: 
-                # Eski resmi silerken de mutlak yol (absolute path) kullanıyoruz
                 eski_yol = os.path.join(app.root_path, eski['gorsel_url'].lstrip('/'))
                 os.remove(eski_yol)
             except: pass
