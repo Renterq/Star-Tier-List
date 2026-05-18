@@ -246,7 +246,6 @@
             });
         }
         
-        // KİT İÇİNDEKİ RANKI HESAPLAYAN FONKSİYON
         function getPlayerRankInKit(nick, kitName) {
             let filtered = allPlayers.filter(p => p.kits[kitName] !== undefined).sort((a, b) => {
                 let scoreA = tierPoints[a.kits[kitName]] || 0;
